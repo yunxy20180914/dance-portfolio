@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>丫头的舞蹈作品集</title>
+    <title>刘聪惠舞蹈作品集</title>
     <style>
         * {
             margin: 0;
@@ -77,6 +77,13 @@
             justify-content: center;
             color: white;
             font-size: 4em;
+            position: relative;
+        }
+        
+        .video-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
         .video-info {
@@ -97,17 +104,36 @@
             margin-bottom: 15px;
         }
         
-        .play-btn {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #888;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .play-btn, .download-btn {
+            flex: 1;
+            padding: 10px;
             border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 1em;
             font-weight: bold;
             transition: all 0.3s ease;
-            width: 100%;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .play-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
         }
         
         .play-btn:hover {
@@ -115,7 +141,17 @@
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
         
-        /* 视频播放器模态框样式 */
+        .download-btn {
+            background: #f0f0f0;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        .download-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        /* 视频播放器模态框 */
         .modal {
             display: none;
             position: fixed;
@@ -175,13 +211,17 @@
             #video-player {
                 height: 300px;
             }
+            
+            .btn-group {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>💃 刘聪惠的舞蹈作品集</h1>
+            <h1>💃 刘聪惠舞蹈作品集</h1>
             <p class="subtitle">用心起舞，用情演绎 | 共收录 <span id="video-count">0</span> 个作品</p>
         </header>
         
@@ -190,7 +230,8 @@
         </div>
         
         <footer>
-            <p>© 2024 舞蹈作品集 | 使用 Cloudflare R2 存储 | 永久在线</p>
+            <p>© 2024 刘聪惠舞蹈作品集 | 视频托管: Cloudflare R2 | 网站托管: Cloudflare Pages</p>
+            <p>网站地址: https://lchdance-portfolio.pages.dev</p>
         </footer>
     </div>
     
@@ -205,38 +246,43 @@
     </div>
     
     <script>
-        // 配置信息 - 您需要修改这里！
-        const R2_PUBLIC_URL = "https://pub-97b3185c458a4f329b725342721ebfe1.r2.dev/"; // 替换为您的R2公共URL
+        // 🔧 配置信息 - 需要您修改的部分
+        // 1. 替换为您的R2公共URL
+        const R2_PUBLIC_URL = "https://pub-97b3185c458a4f329b725342721ebfe1.r2.dev/";
         
-        // 视频列表 - 这里添加您的舞蹈视频信息
+        // 2. 您的舞蹈视频列表
         const VIDEOS = [
             {
                 id: 1,
                 title: "桃花诺",
-                description: "桃花诺",
-                filename: "桃花诺.mp4", // R2里的文件名
-                duration: "3:45"
+                description: "优美古典舞，如桃花般绽放",
+                filename: "taohuanuo.mp4", // R2里的文件名
+                duration: "3:45",
+                hasVideo: true
             },
             {
                 id: 2,
-                title: "bunny",
-                description: "bunny",
+                title: "Bunny",
+                description: "可爱现代舞，展现青春活力",
                 filename: "bunny.mp4",
-                duration: "4:20"
+                duration: "4:20",
+                hasVideo: true
             },
             {
                 id: 3,
-                title: "操场",
-                description: "操场",
-                filename: "hiphop-dance-1.mp4",
-                duration: "2:55"
+                title: "半壶纱",
+                description: "半壶纱",
+                filename: "半壶纱.mp4",
+                duration: "2:55",
+                hasVideo: true
             },
             {
                 id: 4,
-                title: "校外",
-                description: "校外",
-                filename: "ballet-swanlake.mp4",
-                duration: "5:10"
+                title: "红昭愿-马尾",
+                description: "红昭愿-马尾",
+                filename: "红昭愿-马尾.mp4",
+                duration: "3:30",
+                hasVideo: true
             }
             // 您可以继续添加更多视频...
         ];
@@ -266,10 +312,20 @@
                     <div class="video-info">
                         <h3 class="video-title">${video.title}</h3>
                         <p class="video-desc">${video.description}</p>
-                        <p style="color: #888; margin-bottom: 15px;">时长: ${video.duration}</p>
-                        <button class="play-btn" onclick="playVideo('${videoUrl}', '${video.title}')">
-                            ▶ 播放视频
-                        </button>
+                        <div class="video-meta">
+                            <span>时长: ${video.duration}</span>
+                            <span>编号: #${video.id}</span>
+                        </div>
+                        <div class="btn-group">
+                            ${video.hasVideo ? 
+                                `<button class="play-btn" onclick="playVideo('${videoUrl}', '${video.title}')">
+                                    ▶ 播放视频
+                                </button>` 
+                                : ''}
+                            <a class="download-btn" href="${videoUrl}" download="${video.title}.mp4">
+                                ⬇ 下载视频
+                            </a>
+                        </div>
                     </div>
                 `;
                 
@@ -284,12 +340,16 @@
             
             // 设置视频源
             videoPlayer.src = videoUrl;
+            videoPlayer.setAttribute('title', title);
             
             // 显示模态框
             modal.style.display = 'flex';
             
             // 开始播放
             videoPlayer.play();
+            
+            // 记录播放历史
+            savePlayHistory(title);
         }
         
         // 关闭视频
@@ -299,9 +359,22 @@
             
             // 暂停视频
             videoPlayer.pause();
+            videoPlayer.src = '';
             
             // 隐藏模态框
             modal.style.display = 'none';
+        }
+        
+        // 保存播放历史到本地
+        function savePlayHistory(title) {
+            let history = JSON.parse(localStorage.getItem('dance_play_history') || '[]');
+            history.unshift({
+                title: title,
+                time: new Date().toLocaleString()
+            });
+            // 只保留最近10条
+            history = history.slice(0, 10);
+            localStorage.setItem('dance_play_history', JSON.stringify(history));
         }
         
         // 点击模态框背景关闭
@@ -320,6 +393,14 @@
                 closeVideo();
             }
         });
+        
+        // 显示欢迎提示
+        setTimeout(() => {
+            if (!localStorage.getItem('welcome_shown')) {
+                alert('欢迎访问刘聪惠舞蹈作品集！点击播放按钮观看视频。');
+                localStorage.setItem('welcome_shown', 'true');
+            }
+        }, 1000);
     </script>
 </body>
 </html>

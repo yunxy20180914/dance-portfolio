@@ -759,6 +759,341 @@
                 align-self: flex-start;
             }
         }
+
+        /* ================ 标签管理界面 ================ */
+        .admin-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .admin-toggle-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+
+        .admin-toggle-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10001;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .admin-modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-modal-header {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .admin-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        .admin-tab {
+            padding: 15px 30px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: all 0.3s;
+        }
+
+        .admin-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .admin-tab-content {
+            display: none;
+        }
+
+        .admin-tab-content.active {
+            display: block;
+        }
+
+        .video-list-admin {
+            display: grid;
+            gap: 15px;
+            max-height: 500px;
+            overflow-y: auto;
+            margin-bottom: 30px;
+        }
+
+        .video-admin-item {
+            display: grid;
+            grid-template-columns: 1fr 2fr 3fr;
+            gap: 15px;
+            padding: 15px;
+            background: var(--light-bg);
+            border-radius: 12px;
+            align-items: center;
+        }
+
+        .video-admin-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .video-admin-title {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .video-admin-filename {
+            font-size: 0.85em;
+            color: var(--text-light);
+        }
+
+        .video-admin-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .tag-edit {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: white;
+            color: var(--text-color);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            border: 1px solid var(--border-color);
+        }
+
+        .tag-edit .remove-tag {
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 0.9em;
+            padding-left: 5px;
+        }
+
+        .tag-edit .remove-tag:hover {
+            color: #ee5a24;
+        }
+
+        .tag-input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .tag-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+        .tag-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-success {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #27ae60;
+        }
+
+        .btn-danger {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #ee5a24;
+        }
+
+        .tag-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            padding: 15px;
+            background: var(--light-bg);
+            border-radius: 12px;
+        }
+
+        .tag-suggestion {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tag-suggestion:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .tag-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .tag-stat-item {
+            background: var(--light-bg);
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tag-stat-name {
+            font-weight: 600;
+        }
+
+        .tag-stat-count {
+            background: var(--primary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 0.9em;
+        }
+
+        .admin-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .import-export-section {
+            background: var(--light-bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .json-editor {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            resize: vertical;
+        }
+
+        .json-editor:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .import-result {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .import-result.success {
+            background: rgba(46, 204, 113, 0.1);
+            border: 1px solid #2ecc71;
+            color: #27ae60;
+            display: block;
+        }
+
+        .import-result.error {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid #ff6b6b;
+            color: #ee5a24;
+            display: block;
+        }
+
+        .status-message {
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .status-message.success {
+            background: rgba(46, 204, 113, 0.1);
+            border: 1px solid #2ecc71;
+            color: #27ae60;
+            display: block;
+        }
+
+        .status-message.error {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid #ff6b6b;
+            color: #ee5a24;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -766,6 +1101,13 @@
     <div id="loading">
         <div class="spinner"></div>
         <div style="color: white; font-size: 1.2em; margin-top: 20px;">正在加载舞蹈作品集...</div>
+    </div>
+
+    <!-- 标签管理按钮 -->
+    <div class="admin-panel">
+        <button class="admin-toggle-btn" onclick="toggleAdminPanel()" title="标签管理">
+            <i class="fas fa-tags"></i>
+        </button>
     </div>
 
     <!-- 主容器 -->
@@ -886,6 +1228,163 @@
         </div>
     </div>
 
+    <!-- 标签管理模态框 -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h3 style="margin: 0; font-size: 1.5em;">
+                    <i class="fas fa-tags"></i> 视频标签管理后台
+                </h3>
+                <button class="close-btn" onclick="closeAdminPanel()">×</button>
+            </div>
+            
+            <div class="admin-modal-body">
+                <!-- 标签管理状态消息 -->
+                <div id="adminStatusMessage" class="status-message"></div>
+                
+                <!-- 标签页 -->
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-tab="edit-tags">编辑标签</button>
+                    <button class="admin-tab" data-tab="tag-stats">标签统计</button>
+                    <button class="admin-tab" data-tab="import-export">导入/导出</button>
+                    <button class="admin-tab" data-tab="batch-edit">批量编辑</button>
+                </div>
+                
+                <!-- 编辑标签页 -->
+                <div class="admin-tab-content active" id="edit-tabs-content">
+                    <div style="margin-bottom: 20px;">
+                        <h4>编辑视频标签</h4>
+                        <p style="color: var(--text-light); font-size: 0.95em;">
+                            点击标签上的 × 可以删除标签，在输入框中添加新标签
+                        </p>
+                    </div>
+                    
+                    <div class="tag-suggestions" id="commonTags">
+                        <!-- 常用标签会动态生成 -->
+                    </div>
+                    
+                    <div class="video-list-admin" id="adminVideoList">
+                        <!-- 视频列表会动态生成 -->
+                    </div>
+                    
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" onclick="saveTagChanges()">
+                            <i class="fas fa-save"></i> 保存所有修改
+                        </button>
+                        <button class="btn btn-secondary" onclick="loadAdminData()">
+                            <i class="fas fa-redo"></i> 重新加载
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 标签统计页 -->
+                <div class="admin-tab-content" id="tag-stats-content">
+                    <div style="margin-bottom: 20px;">
+                        <h4>标签使用统计</h4>
+                        <p style="color: var(--text-light); font-size: 0.95em;">
+                            显示所有标签的使用频率
+                        </p>
+                    </div>
+                    
+                    <div class="tag-stats" id="tagStatistics">
+                        <!-- 标签统计会动态生成 -->
+                    </div>
+                    
+                    <div style="margin-top: 30px;">
+                        <h5>标签建议</h5>
+                        <p style="color: var(--text-light); font-size: 0.95em;">
+                            以下视频缺少标签或标签较少：
+                        </p>
+                        <div id="tagSuggestionsList" style="margin-top: 15px;">
+                            <!-- 标签建议列表 -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 导入/导出页 -->
+                <div class="admin-tab-content" id="import-export-content">
+                    <div class="import-export-section">
+                        <h4>导出视频数据</h4>
+                        <p style="color: var(--text-light); font-size: 0.95em; margin-bottom: 15px;">
+                            导出当前所有视频数据（包含标签修改）
+                        </p>
+                        <button class="btn btn-primary" onclick="exportVideoData()">
+                            <i class="fas fa-download"></i> 导出JSON数据
+                        </button>
+                    </div>
+                    
+                    <div class="import-export-section">
+                        <h4>导入视频数据</h4>
+                        <p style="color: var(--text-light); font-size: 0.95em; margin-bottom: 15px;">
+                            导入新的视频数据（将覆盖当前数据）
+                        </p>
+                        <textarea class="json-editor" id="jsonImportData" 
+                                  placeholder="在此粘贴JSON数据..."></textarea>
+                        <button class="btn btn-success" onclick="importVideoData()">
+                            <i class="fas fa-upload"></i> 导入数据
+                        </button>
+                        <button class="btn btn-secondary" onclick="loadExampleData()" style="margin-left: 10px;">
+                            <i class="fas fa-eye"></i> 查看示例格式
+                        </button>
+                        <div id="importResult" class="import-result"></div>
+                    </div>
+                </div>
+                
+                <!-- 批量编辑页 -->
+                <div class="admin-tab-content" id="batch-edit-content">
+                    <div style="margin-bottom: 20px;">
+                        <h4>批量添加标签</h4>
+                        <p style="color: var(--text-light); font-size: 0.95em;">
+                            为符合条件的视频批量添加标签
+                        </p>
+                    </div>
+                    
+                    <div style="background: var(--light-bg); padding: 20px; border-radius: 12px;">
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600;">
+                                筛选条件：
+                            </label>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <input type="text" id="batchFilterTitle" 
+                                       placeholder="标题包含..." 
+                                       style="flex: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px;">
+                                <select id="batchFilterCategory" 
+                                        style="padding: 10px; border: 1px solid var(--border-color); border-radius: 6px;">
+                                    <option value="">所有分类</option>
+                                    <!-- 分类选项会动态生成 -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600;">
+                                要添加的标签：
+                            </label>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="batchAddTag" 
+                                       placeholder="输入标签，多个用逗号分隔" 
+                                       style="flex: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px;">
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-primary" onclick="previewBatchEdit()">
+                                <i class="fas fa-search"></i> 预览效果
+                            </button>
+                            <button class="btn btn-success" onclick="applyBatchEdit()" id="applyBatchBtn" disabled>
+                                <i class="fas fa-check"></i> 应用修改
+                            </button>
+                        </div>
+                        
+                        <div id="batchPreview" style="margin-top: 20px; display: none;">
+                            <!-- 预览结果 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ===================== 配置信息 =====================
         const CONFIG = {
@@ -911,6 +1410,10 @@
         let currentSort = 'default';
         let currentView = 'grid';
 
+        // ===================== 标签管理变量 =====================
+        let adminVideoList = []; // 管理界面中的视频列表副本
+        let originalVideoList = []; // 原始数据备份
+
         // ===================== 初始化函数 =====================
         async function init() {
             showLoading();
@@ -928,7 +1431,10 @@
                 // 4. 更新统计信息
                 updateStats();
                 
-                // 5. 显示使用提示
+                // 5. 初始化标签管理界面
+                initializeAdminPanel();
+                
+                // 6. 显示使用提示
                 setTimeout(showTips, 1000);
                 
             } catch (error) {
@@ -5530,6 +6036,7 @@
             console.log('2. 使用搜索框快速查找视频');
             console.log('3. 点击标签可以按标签搜索');
             console.log('4. 点击分类按钮筛选视频');
+            console.log('5. 右上角橙色标签按钮可以管理标签');
         }
 
         // ===================== 事件监听器 =====================
@@ -5539,6 +6046,13 @@
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 closeVideoModal();
+                closeAdminPanel();
+            }
+            
+            // Ctrl+Shift+M 打开管理界面
+            if (event.ctrlKey && event.shiftKey && event.key === 'M') {
+                event.preventDefault();
+                toggleAdminPanel();
             }
         });
         
@@ -5548,13 +6062,612 @@
                 closeVideoModal();
             }
         });
+        
+        document.getElementById('adminModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeAdminPanel();
+            }
+        });
 
-        // ===================== 生成完整300个视频数据的函数 =====================
-        function generateAllVideos() {
-            // 这里是完整的300个视频数据生成逻辑
-            // 由于代码太长，这里只保留框架
-            console.log("生成300个视频数据...");
-            return getAllVideosData();
+        // ===================== 标签管理功能 =====================
+        function initializeAdminPanel() {
+            // 初始化标签页切换
+            const tabs = document.querySelectorAll('.admin-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    const tabId = tab.dataset.tab;
+                    document.querySelectorAll('.admin-tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.getElementById(tabId + '-content').classList.add('active');
+                });
+            });
+            
+            // 加载分类筛选选项
+            updateCategoryFilter();
+            
+            // 加载常用标签
+            updateCommonTags();
+        }
+
+        function toggleAdminPanel() {
+            const modal = document.getElementById('adminModal');
+            if (modal.style.display === 'flex') {
+                closeAdminPanel();
+            } else {
+                openAdminPanel();
+            }
+        }
+
+        function openAdminPanel() {
+            document.getElementById('adminModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            loadAdminData();
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('adminModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function loadAdminData() {
+            // 创建数据副本用于编辑
+            adminVideoList = JSON.parse(JSON.stringify(allVideos));
+            originalVideoList = JSON.parse(JSON.stringify(allVideos));
+            
+            // 显示视频列表
+            renderAdminVideoList();
+            
+            // 更新标签统计
+            updateTagStatistics();
+            
+            // 清空状态消息
+            clearStatusMessage();
+        }
+
+        function renderAdminVideoList() {
+            const container = document.getElementById('adminVideoList');
+            const html = adminVideoList.map(video => `
+                <div class="video-admin-item" data-id="${video.id}">
+                    <div class="video-admin-info">
+                        <div class="video-admin-title">${video.title}</div>
+                        <div class="video-admin-filename">${video.filename}</div>
+                        <div style="font-size: 0.85em; color: var(--primary-color);">
+                            ${video.category} • ${video.duration}
+                        </div>
+                    </div>
+                    
+                    <div class="video-admin-tags" id="tags-${video.id}">
+                        ${video.tags.map(tag => `
+                            <span class="tag-edit">
+                                ${tag}
+                                <span class="remove-tag" onclick="removeTag(${video.id}, '${tag}')">×</span>
+                            </span>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="tag-input-group">
+                        <input type="text" 
+                               class="tag-input" 
+                               id="tag-input-${video.id}" 
+                               placeholder="添加新标签..."
+                               onkeypress="if(event.key === 'Enter') addTag(${video.id})">
+                        <button class="btn-small btn-success" onclick="addTag(${video.id})">
+                            <i class="fas fa-plus"></i> 添加
+                        </button>
+                        <button class="btn-small btn-secondary" onclick="suggestTags(${video.id})" title="智能推荐标签">
+                            <i class="fas fa-lightbulb"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = html;
+        }
+
+        function addTag(videoId, tag = null) {
+            const video = adminVideoList.find(v => v.id === videoId);
+            if (!video) return;
+            
+            let tagText;
+            if (tag) {
+                tagText = tag;
+            } else {
+                const input = document.getElementById(`tag-input-${videoId}`);
+                tagText = input.value.trim();
+                input.value = '';
+            }
+            
+            if (!tagText) return;
+            
+            // 分割逗号分隔的多个标签
+            const tags = tagText.split(',').map(t => t.trim()).filter(t => t);
+            
+            tags.forEach(tag => {
+                if (!video.tags.includes(tag)) {
+                    video.tags.push(tag);
+                }
+            });
+            
+            // 更新显示
+            updateVideoTagsDisplay(videoId);
+            updateCommonTags();
+            showStatusMessage(`已为"${video.title}"添加标签: ${tags.join(', ')}`, 'success');
+        }
+
+        function removeTag(videoId, tag) {
+            const video = adminVideoList.find(v => v.id === videoId);
+            if (!video) return;
+            
+            const index = video.tags.indexOf(tag);
+            if (index > -1) {
+                video.tags.splice(index, 1);
+                updateVideoTagsDisplay(videoId);
+                updateCommonTags();
+                showStatusMessage(`已从"${video.title}"移除标签: ${tag}`, 'success');
+            }
+        }
+
+        function updateVideoTagsDisplay(videoId) {
+            const video = adminVideoList.find(v => v.id === videoId);
+            if (!video) return;
+            
+            const container = document.getElementById(`tags-${videoId}`);
+            if (container) {
+                container.innerHTML = video.tags.map(tag => `
+                    <span class="tag-edit">
+                        ${tag}
+                        <span class="remove-tag" onclick="removeTag(${videoId}, '${tag}')">×</span>
+                    </span>
+                `).join('');
+            }
+        }
+
+        function suggestTags(videoId) {
+            const video = adminVideoList.find(v => v.id === videoId);
+            if (!video) return;
+            
+            // 基于现有信息推荐标签
+            const suggestions = [];
+            
+            // 基于分类推荐
+            if (video.category === '古典舞') suggestions.push('传统', '优雅');
+            if (video.category === '现代舞') suggestions.push('创新', '自由');
+            if (video.category === '民族舞') suggestions.push('民族', '传统');
+            if (video.category === '流行舞') suggestions.push('流行', '时尚');
+            if (video.category === '儿童舞') suggestions.push('儿童', '活泼');
+            
+            // 基于标题推荐
+            const title = video.title.toLowerCase();
+            if (title.includes('双人')) suggestions.push('双人舞');
+            if (title.includes('三人')) suggestions.push('三人舞');
+            if (title.includes('集体')) suggestions.push('集体舞');
+            if (title.includes('版')) suggestions.push('特别版');
+            
+            // 基于文件名推荐
+            if (video.filename.includes('返校')) suggestions.push('返校');
+            if (video.filename.includes('桃园')) suggestions.push('桃园版');
+            if (video.filename.includes('臂章')) suggestions.push('臂章版');
+            if (video.filename.includes('长发')) suggestions.push('长发');
+            if (video.filename.includes('短发')) suggestions.push('短发');
+            
+            // 过滤掉已经存在的标签
+            const newSuggestions = suggestions.filter(tag => 
+                !video.tags.includes(tag) && 
+                !video.tags.includes(tag + '版')
+            );
+            
+            if (newSuggestions.length > 0) {
+                // 显示建议
+                const input = document.getElementById(`tag-input-${videoId}`);
+                input.value = newSuggestions.join(', ');
+                showStatusMessage(`已为您推荐标签: ${newSuggestions.join(', ')}`, 'success');
+            } else {
+                showStatusMessage('没有新的标签建议', 'info');
+            }
+        }
+
+        function saveTagChanges() {
+            // 检查是否有修改
+            const hasChanges = JSON.stringify(adminVideoList) !== JSON.stringify(originalVideoList);
+            
+            if (!hasChanges) {
+                showStatusMessage('没有需要保存的修改', 'info');
+                return;
+            }
+            
+            try {
+                // 更新主视频数据
+                allVideos = JSON.parse(JSON.stringify(adminVideoList));
+                filteredVideos = [...allVideos];
+                
+                // 保存到本地存储
+                localStorage.setItem('dance_video_data', JSON.stringify(allVideos));
+                
+                // 更新界面
+                initializeCategoryFilter();
+                displayVideos();
+                updateStats();
+                
+                // 备份原始数据
+                originalVideoList = JSON.parse(JSON.stringify(adminVideoList));
+                
+                showStatusMessage('标签修改已保存！页面已更新。', 'success');
+                
+            } catch (error) {
+                console.error('保存失败:', error);
+                showStatusMessage('保存失败: ' + error.message, 'error');
+            }
+        }
+
+        function updateCommonTags() {
+            // 统计常用标签
+            const tagCounts = {};
+            adminVideoList.forEach(video => {
+                video.tags.forEach(tag => {
+                    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+                });
+            });
+            
+            // 排序并取前20个
+            const commonTags = Object.entries(tagCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 20)
+                .map(([tag]) => tag);
+            
+            const container = document.getElementById('commonTags');
+            container.innerHTML = `
+                <strong style="width: 100%; margin-bottom: 5px;">常用标签（点击添加）：</strong>
+                ${commonTags.map(tag => `
+                    <span class="tag-suggestion" onclick="addCommonTag('${tag}')">
+                        ${tag}
+                    </span>
+                `).join('')}
+            `;
+        }
+
+        function addCommonTag(tag) {
+            // 获取当前选中的视频（如果有）
+            const selectedVideoItem = document.querySelector('.video-admin-item:hover');
+            if (selectedVideoItem) {
+                const videoId = parseInt(selectedVideoItem.dataset.id);
+                addTag(videoId, tag);
+            } else {
+                // 如果没有选中视频，显示提示
+                showStatusMessage(`请先点击一个视频，然后点击标签"${tag}"来添加`, 'info');
+            }
+        }
+
+        function updateTagStatistics() {
+            const tagCounts = {};
+            const videoCounts = {};
+            
+            adminVideoList.forEach(video => {
+                // 统计标签使用次数
+                video.tags.forEach(tag => {
+                    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+                });
+                
+                // 统计每个视频的标签数量
+                const tagCount = video.tags.length;
+                videoCounts[tagCount] = (videoCounts[tagCount] || 0) + 1;
+            });
+            
+            // 显示标签统计
+            const statsContainer = document.getElementById('tagStatistics');
+            const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+            
+            statsContainer.innerHTML = sortedTags.map(([tag, count]) => `
+                <div class="tag-stat-item">
+                    <span class="tag-stat-name">${tag}</span>
+                    <span class="tag-stat-count">${count}次</span>
+                </div>
+            `).join('');
+            
+            // 显示标签建议
+            const suggestionsContainer = document.getElementById('tagSuggestionsList');
+            const videosWithFewTags = adminVideoList
+                .filter(video => video.tags.length < 3)
+                .slice(0, 10);
+            
+            if (videosWithFewTags.length > 0) {
+                suggestionsContainer.innerHTML = `
+                    <div style="background: var(--light-bg); padding: 15px; border-radius: 8px;">
+                        ${videosWithFewTags.map(video => `
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                                <span>${video.title}</span>
+                                <span style="font-size: 0.9em; color: var(--text-light);">
+                                    ${video.tags.length}个标签
+                                </span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button class="btn btn-primary" onclick="addTagsToFewTagVideos()" style="margin-top: 15px;">
+                        <i class="fas fa-magic"></i> 为这些视频批量添加基础标签
+                    </button>
+                `;
+            } else {
+                suggestionsContainer.innerHTML = `
+                    <div style="padding: 20px; text-align: center; color: var(--text-light);">
+                        所有视频都有足够的标签！
+                    </div>
+                `;
+            }
+        }
+
+        function addTagsToFewTagVideos() {
+            const videosWithFewTags = adminVideoList.filter(video => video.tags.length < 3);
+            
+            videosWithFewTags.forEach(video => {
+                // 基于视频信息添加基础标签
+                const baseTags = [];
+                
+                if (video.category) baseTags.push(video.category);
+                
+                // 根据标题判断是否双人/三人/集体舞
+                const title = video.title.toLowerCase();
+                if (title.includes('双人') || title.includes('2人')) baseTags.push('双人舞');
+                if (title.includes('三人') || title.includes('3人')) baseTags.push('三人舞');
+                if (title.includes('集体') || title.includes('多人')) baseTags.push('集体舞');
+                
+                // 添加年份标签（从上传日期提取）
+                if (video.uploadDate) {
+                    const year = video.uploadDate.split('-')[0];
+                    baseTags.push(year);
+                }
+                
+                // 添加未存在的标签
+                baseTags.forEach(tag => {
+                    if (!video.tags.includes(tag)) {
+                        video.tags.push(tag);
+                    }
+                });
+            });
+            
+            renderAdminVideoList();
+            updateTagStatistics();
+            updateCommonTags();
+            showStatusMessage(`已为${videosWithFewTags.length}个视频添加基础标签`, 'success');
+        }
+
+        function updateCategoryFilter() {
+            const categories = [...new Set(allVideos.map(v => v.category))];
+            const select = document.getElementById('batchFilterCategory');
+            select.innerHTML = `
+                <option value="">所有分类</option>
+                ${categories.map(cat => `<option value="${cat}">${cat}</option>`).join('')}
+            `;
+        }
+
+        function previewBatchEdit() {
+            const titleFilter = document.getElementById('batchFilterTitle').value.toLowerCase();
+            const categoryFilter = document.getElementById('batchFilterCategory').value;
+            const tagsToAdd = document.getElementById('batchAddTag').value
+                .split(',')
+                .map(t => t.trim())
+                .filter(t => t);
+            
+            if (tagsToAdd.length === 0) {
+                showStatusMessage('请输入要添加的标签', 'error');
+                return;
+            }
+            
+            // 筛选符合条件的视频
+            const filteredVideos = adminVideoList.filter(video => {
+                if (categoryFilter && video.category !== categoryFilter) return false;
+                if (titleFilter && !video.title.toLowerCase().includes(titleFilter)) return false;
+                return true;
+            });
+            
+            const previewContainer = document.getElementById('batchPreview');
+            if (filteredVideos.length === 0) {
+                previewContainer.innerHTML = `
+                    <div style="padding: 15px; background: rgba(255,107,107,0.1); border-radius: 8px; color: #ee5a24;">
+                        没有找到符合条件的视频
+                    </div>
+                `;
+                document.getElementById('applyBatchBtn').disabled = true;
+            } else {
+                previewContainer.innerHTML = `
+                    <div style="padding: 15px; background: rgba(46,204,113,0.1); border-radius: 8px; color: #27ae60;">
+                        将为 <strong>${filteredVideos.length}</strong> 个视频添加以下标签：
+                        <div style="margin-top: 10px;">
+                            ${tagsToAdd.map(tag => `<span class="tag-edit">${tag}</span>`).join('')}
+                        </div>
+                        <div style="margin-top: 15px; font-size: 0.9em;">
+                            前5个视频：
+                            ${filteredVideos.slice(0, 5).map(v => v.title).join('、')}
+                            ${filteredVideos.length > 5 ? `等${filteredVideos.length}个视频` : ''}
+                        </div>
+                    </div>
+                `;
+                document.getElementById('applyBatchBtn').disabled = false;
+                
+                // 存储当前筛选条件供应用时使用
+                window.currentBatchFilter = {
+                    titleFilter,
+                    categoryFilter,
+                    tagsToAdd,
+                    filteredVideoIds: filteredVideos.map(v => v.id)
+                };
+            }
+            
+            previewContainer.style.display = 'block';
+        }
+
+        function applyBatchEdit() {
+            if (!window.currentBatchFilter) return;
+            
+            const { tagsToAdd, filteredVideoIds } = window.currentBatchFilter;
+            let addedCount = 0;
+            
+            filteredVideoIds.forEach(videoId => {
+                const video = adminVideoList.find(v => v.id === videoId);
+                if (video) {
+                    tagsToAdd.forEach(tag => {
+                        if (!video.tags.includes(tag)) {
+                            video.tags.push(tag);
+                            addedCount++;
+                        }
+                    });
+                }
+            });
+            
+            renderAdminVideoList();
+            updateTagStatistics();
+            updateCommonTags();
+            updateCategoryFilter();
+            
+            const previewContainer = document.getElementById('batchPreview');
+            previewContainer.innerHTML = `
+                <div style="padding: 15px; background: rgba(46,204,113,0.1); border-radius: 8px; color: #27ae60;">
+                    <i class="fas fa-check-circle"></i> 批量添加完成！
+                    <div style="margin-top: 10px;">
+                        成功为 <strong>${filteredVideoIds.length}</strong> 个视频添加了
+                        <strong>${tagsToAdd.length}</strong> 个标签，共计 <strong>${addedCount}</strong> 个标签添加操作。
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('applyBatchBtn').disabled = true;
+            showStatusMessage(`批量添加完成！已添加${addedCount}个标签`, 'success');
+        }
+
+        function exportVideoData() {
+            const data = {
+                videos: adminVideoList,
+                exportDate: new Date().toISOString(),
+                totalVideos: adminVideoList.length,
+                totalTags: adminVideoList.reduce((sum, video) => sum + video.tags.length, 0)
+            };
+            
+            const jsonString = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `舞蹈视频数据_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showStatusMessage('数据导出成功！', 'success');
+        }
+
+        function importVideoData() {
+            const jsonString = document.getElementById('jsonImportData').value;
+            const resultContainer = document.getElementById('importResult');
+            
+            try {
+                const data = JSON.parse(jsonString);
+                
+                if (!Array.isArray(data) && !data.videos) {
+                    throw new Error('数据格式错误：需要包含视频数组');
+                }
+                
+                const videos = Array.isArray(data) ? data : data.videos;
+                
+                if (!Array.isArray(videos)) {
+                    throw new Error('视频数据必须是数组');
+                }
+                
+                if (videos.length === 0) {
+                    throw new Error('视频数据不能为空');
+                }
+                
+                // 验证每个视频的基本结构
+                videos.forEach((video, index) => {
+                    if (!video.id || !video.title || !video.filename) {
+                        throw new Error(`第${index + 1}个视频缺少必要字段（id、title或filename）`);
+                    }
+                    
+                    if (!Array.isArray(video.tags)) {
+                        video.tags = [];
+                    }
+                });
+                
+                // 更新数据
+                allVideos = videos;
+                filteredVideos = [...allVideos];
+                adminVideoList = JSON.parse(JSON.stringify(allVideos));
+                originalVideoList = JSON.parse(JSON.stringify(allVideos));
+                
+                // 保存到本地存储
+                localStorage.setItem('dance_video_data', JSON.stringify(allVideos));
+                
+                // 更新界面
+                initializeCategoryFilter();
+                displayVideos();
+                updateStats();
+                renderAdminVideoList();
+                updateTagStatistics();
+                updateCommonTags();
+                updateCategoryFilter();
+                
+                resultContainer.className = 'import-result success';
+                resultContainer.innerHTML = `
+                    <i class="fas fa-check-circle"></i> 导入成功！
+                    <div style="margin-top: 5px; font-size: 0.9em;">
+                        已导入 ${videos.length} 个视频，共计 ${videos.reduce((sum, v) => sum + v.tags.length, 0)} 个标签。
+                    </div>
+                `;
+                
+                showStatusMessage(`成功导入${videos.length}个视频`, 'success');
+                
+            } catch (error) {
+                console.error('导入失败:', error);
+                resultContainer.className = 'import-result error';
+                resultContainer.innerHTML = `
+                    <i class="fas fa-exclamation-circle"></i> 导入失败
+                    <div style="margin-top: 5px; font-size: 0.9em;">
+                        ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        function loadExampleData() {
+            const example = {
+                videos: [
+                    {
+                        "id": 1,
+                        "filename": "example.mp4",
+                        "title": "示例视频",
+                        "description": "这是一个示例视频",
+                        "category": "现代舞",
+                        "tags": ["现代舞", "示例", "测试"],
+                        "duration": "3:00",
+                        "uploadDate": "2024-01-01",
+                        "featured": false
+                    }
+                ],
+                exportDate: new Date().toISOString(),
+                totalVideos: 1,
+                totalTags: 3
+            };
+            
+            document.getElementById('jsonImportData').value = JSON.stringify(example, null, 2);
+        }
+
+        function showStatusMessage(message, type = 'info') {
+            const container = document.getElementById('adminStatusMessage');
+            container.textContent = message;
+            container.className = 'status-message ' + type;
+            container.style.display = 'block';
+            
+            // 3秒后自动隐藏
+            setTimeout(() => {
+                container.style.display = 'none';
+            }, 3000);
+        }
+
+        function clearStatusMessage() {
+            const container = document.getElementById('adminStatusMessage');
+            container.style.display = 'none';
         }
 
         // ===================== 确保页面完全加载后初始化 =====================

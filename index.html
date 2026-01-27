@@ -450,14 +450,24 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
-
+/* 隐藏下载按钮 */
+.action-btn.download {
+    display: none !important;
+}
         .video-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             margin-bottom: 20px;
         }
-
+/* 已移除分类标签样式 */
+.video-category {
+    display: none !important;
+}
+        /* 已移除描述样式 */
+.video-description {
+    display: none !important;
+}
         .tag {
             background: var(--light-bg);
             color: var(--text-light);
@@ -807,7 +817,7 @@
                         <input type="text" 
                                class="search-input" 
                                id="searchInput" 
-                               placeholder="搜索舞蹈作品（标题、描述、标签）..."
+                               placeholder="搜索舞蹈作品（歌曲名）..."
                                autocomplete="off">
                     </div>
                     <button class="btn btn-primary" onclick="searchVideos()">
@@ -844,17 +854,17 @@
                             <i class="fas fa-filter"></i>
                             <span>当前显示: <strong id="filteredCount">0</strong></span>
                         </div>
-                        <div class="stat-item">
+                        <!--<div class="stat-item">
                             <i class="fas fa-folder"></i>
                             <span>分类: <strong id="categoryCount">0</strong></span>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="sort-options">
                         <select id="sortSelect" onchange="sortVideos()" style="padding: 8px 15px; border-radius: 8px; border: 1px solid var(--border-color);">
                             <option value="default">默认排序</option>
                             <option value="name">按名称排序</option>
                             <option value="newest">最新上传</option>
-                            <option value="category">按类别排序</option>
+                           
                         </select>
                     </div>
                 </div>
@@ -5870,6 +5880,7 @@
             localStorage.setItem('dance_video_data', JSON.stringify(allVideos));
         });
     </script>
+
 
 
 

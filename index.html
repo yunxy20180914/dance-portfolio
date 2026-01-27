@@ -1445,32 +1445,50 @@
             }
         }
 
-        // ===================== 数据加载函数 =====================
-        async function loadVideoData() {
-            try {
-                // 直接使用我们生成的300个视频数据
-                allVideos = getAllVideosData();
-                filteredVideos = [...allVideos];
-                
-                console.log(`加载了 ${allVideos.length} 个视频`);
-                
-                // 保存到本地存储，方便下次快速加载
-                localStorage.setItem('dance_video_data', JSON.stringify(allVideos));
-                
-            } catch (error) {
-                console.error('数据加载失败:', error);
-                // 如果失败，尝试从本地存储加载
-                const storedData = localStorage.getItem('dance_video_data');
-                if (storedData) {
-                    allVideos = JSON.parse(storedData);
-                    filteredVideos = [...allVideos];
-                } else {
-                    // 如果都没有，使用最小示例数据
-                    allVideos = getMinimalExampleVideos();
-                    filteredVideos = [...allVideos];
-                }
-            }
+      // ===================== 数据加载函数 =====================
+async function loadVideoData() {
+    try {
+        // 首先检查本地存储中是否有修改过的数据
+        const modifiedData = localStorage.getItem('dance_video_data_modified');
+        const backupData = localStorage.getItem('dance_videos_with_tags');
+        
+        if (modifiedData) {
+            // 加载修改过的数据
+            const parsedData = JSON.parse(modifiedData);
+            allVideos = parsedData.videos || parsedData;
+            console.log('从本地存储加载已修改的视频数据');
+            console.log('最后修改时间:', parsedData.lastModified || '未知');
+        } else if (backupData) {
+            // 加载备份数据
+            allVideos = JSON.parse(backupData);
+            console.log('从备份存储加载视频数据');
+        } else {
+            // 没有修改过的数据，使用原始数据
+            allVideos = getAllVideosData();
+            console.log('使用原始视频数据');
         }
+        
+        filteredVideos = [...allVideos];
+        
+        console.log(`加载了 ${allVideos.length} 个视频`);
+        
+        // 保存到本地存储，方便下次快速加载
+        localStorage.setItem('dance_video_data', JSON.stringify(allVideos));
+        
+    } catch (error) {
+        console.error('数据加载失败:', error);
+        // 如果失败，尝试从本地存储加载
+        const storedData = localStorage.getItem('dance_video_data');
+        if (storedData) {
+            allVideos = JSON.parse(storedData);
+            filteredVideos = [...allVideos];
+        } else {
+            // 如果都没有，使用最小示例数据
+            allVideos = getMinimalExampleVideos();
+            filteredVideos = [...allVideos];
+        }
+    }
+}
 
         // ===================== 300个视频的完整数据 =====================
         function getAllVideosData() {
@@ -6270,38 +6288,66 @@
             }
         }
 
-        function saveTagChanges() {
-            // 检查是否有修改
-            const hasChanges = JSON.stringify(adminVideoList) !== JSON.stringify(originalVideoList);
-            
-            if (!hasChanges) {
-                showStatusMessage('没有需要保存的修改', 'info');
-                return;
-            }
-            
-            try {
-                // 更新主视频数据
-                allVideos = JSON.parse(JSON.stringify(adminVideoList));
-                filteredVideos = [...allVideos];
-                
-                // 保存到本地存储
-                localStorage.setItem('dance_video_data', JSON.stringify(allVideos));
-                
-                // 更新界面
-                initializeCategoryFilter();
-                displayVideos();
-                updateStats();
-                
-                // 备份原始数据
-                originalVideoList = JSON.parse(JSON.stringify(adminVideoList));
-                
-                showStatusMessage('标签修改已保存！页面已更新。', 'success');
-                
-            } catch (error) {
-                console.error('保存失败:', error);
-                showStatusMessage('保存失败: ' + error.message, 'error');
-            }
-        }
+       function saveTagChanges() {
+    // 检查是否有修改
+    const hasChanges = JSON.stringify(adminVideoList) !== JSON.stringify(originalVideoList);
+    
+    if (!hasChanges) {
+        showStatusMessage('没有需要保存的修改', 'info');
+        return;
+    }
+    
+    try {
+        // 更新主视频数据
+        allVideos = JSON.parse(JSON.stringify(adminVideoList));
+        filteredVideos = [...allVideos];
+        
+        // 保存到本地存储
+        localStorage.setItem('dance_video_data', JSON.stringify(allVideos));
+        
+        // 更新界面
+        initializeCategoryFilter();
+        displayVideos();
+        updateStats();
+        
+        // 备份原始数据
+        originalVideoList = JSON.parse(JSON.stringify(adminVideoList));
+        
+        // 重要：更新页面中的数据源，这样刷新页面后也能保留
+        updateLocalVideoData();
+        
+        showStatusMessage('标签修改已保存！页面已刷新后会保留修改。', 'success');
+        
+    } catch (error) {
+        console.error('保存失败:', error);
+        showStatusMessage('保存失败: ' + error.message, 'error');
+    }
+}
+
+// 更新本地视频数据
+function updateLocalVideoData() {
+    // 创建一个新的数据数组，包含所有修改
+    const updatedData = [...adminVideoList];
+    
+    // 将更新后的数据保存到本地存储（主要存储）
+    localStorage.setItem('dance_video_data_modified', JSON.stringify({
+        videos: updatedData,
+        lastModified: new Date().toISOString()
+    }));
+    
+    // 同时保存到另一个键名，作为备份
+    localStorage.setItem('dance_videos_with_tags', JSON.stringify(updatedData));
+    
+    // 在控制台输出修改信息
+    console.log('标签修改已保存到本地存储');
+    console.log('修改时间:', new Date().toISOString());
+    console.log('视频总数:', updatedData.length);
+    
+    // 计算标签总数
+    const totalTags = updatedData.reduce((sum, video) => sum + video.tags.length, 0);
+    console.log('标签总数:', totalTags);
+}
+
 
         function updateCommonTags() {
             // 统计常用标签

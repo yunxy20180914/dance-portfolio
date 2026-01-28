@@ -499,7 +499,23 @@
             background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             color: white;
         }
+        /* 位置：大约在第401行左右，在 .action-btn.play 样式后面添加 */
 
+            .action-btn.share {
+                background: #000000;
+                color: white;
+            }
+            
+            .action-btn.share:hover {
+                background: #333333;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            }
+            
+            /* 抖音品牌色 */
+            .douyin-color {
+                color: #000000;
+            }
         /* 隐藏下载按钮 */
         .action-btn.download {
             display: none !important;
@@ -6729,4 +6745,5 @@ function updateLocalVideoData() {
     </script>
 </body>
 </html>
+
 

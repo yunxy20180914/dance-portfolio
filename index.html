@@ -6882,9 +6882,238 @@ function updateLocalVideoData() {
         } else {
             init();
         }
+        // ===================== 分享到抖音功能 =====================
+function shareToDouyin(videoId) {
+    const video = allVideos.find(v => v.id === videoId);
+    if (!video) return;
+    
+    const videoUrl = CONFIG.R2_PUBLIC_URL + encodeURIComponent(video.filename);
+    
+    // 创建分享数据
+    const shareData = {
+        title: video.title,
+        description: video.description,
+        videoUrl: videoUrl,
+        duration: video.duration,
+        hashtags: video.tags.map(tag => '#' + tag).join(' ')
+    };
+    
+    // 显示分享选项
+    showShareOptions(shareData);
+}
+
+function showShareOptions(shareData) {
+    const shareModal = document.createElement('div');
+    shareModal.className = 'share-modal';
+    shareModal.innerHTML = `
+        <div class="share-modal-content">
+            <div class="share-modal-header">
+                <h3><i class="fab fa-tiktok"></i> 分享到抖音</h3>
+                <button class="close-btn" onclick="this.parentElement.parentElement.remove()">×</button>
+            </div>
+            <div class="share-modal-body">
+                <div class="share-preview">
+                    <div class="share-video-title">${shareData.title}</div>
+                    <div class="share-video-info">
+                        <i class="fas fa-clock"></i> ${shareData.duration || ''}
+                        <i class="fas fa-tag"></i> ${shareData.hashtags || ''}
+                    </div>
+                </div>
+                
+                <div class="share-options">
+                    <button class="share-option-btn" onclick="copyShareLink('${shareData.videoUrl}', '${shareData.title}')">
+                        <i class="fas fa-link"></i>
+                        <span>复制链接</span>
+                    </button>
+                    
+                    <button class="share-option-btn" onclick="openDouyinApp('${shareData.videoUrl}', '${shareData.title}')">
+                        <i class="fab fa-tiktok"></i>
+                        <span>抖音App分享</span>
+                    </button>
+                    
+                    <button class="share-option-btn" onclick="generateQRCode('${shareData.videoUrl}')">
+                        <i class="fas fa-qrcode"></i>
+                        <span>生成二维码</span>
+                    </button>
+                    
+                    <button class="share-option-btn" onclick="shareToWechat('${shareData.videoUrl}')">
+                        <i class="fab fa-weixin"></i>
+                        <span>微信分享</span>
+                    </button>
+                </div>
+                
+                <div class="share-tips">
+                    <strong>分享提示：</strong>
+                    <p>1. 复制链接后，在抖音内粘贴发送到群聊</p>
+                    <p>2. 或点击"抖音App分享"直接跳转</p>
+                    <p>3. 使用二维码分享给好友扫码观看</p>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(shareModal);
+}
+
+function copyShareLink(videoUrl, title) {
+    const textarea = document.createElement('textarea');
+    textarea.value = `${title}\n\n${videoUrl}\n\n来自惠惠舞蹈作品集 🎵💃`;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    
+    alert('链接已复制到剪贴板！\n可以在抖音群聊中粘贴分享。');
+}
+
+function openDouyinApp(videoUrl, title) {
+    // 抖音分享协议（需抖音支持）
+    const douyinShareUrl = `snssdk1128://share?url=${encodeURIComponent(videoUrl)}&title=${encodeURIComponent(title)}`;
+    
+    // 尝试打开抖音App
+    window.location.href = douyinShareUrl;
+    
+    // 如果没安装抖音，提示下载
+    setTimeout(() => {
+        if (document.hidden || document.webkitHidden) {
+            // App已打开
+        } else {
+            alert('未检测到抖音App，请安装后重试');
+            window.open('https://www.douyin.com/download', '_blank');
+        }
+    }, 2000);
+}
+
+function generateQRCode(videoUrl) {
+    const qrModal = document.createElement('div');
+    qrModal.className = 'qr-modal';
+    qrModal.innerHTML = `
+        <div class="qr-modal-content">
+            <div class="qr-modal-header">
+                <h3>分享二维码</h3>
+                <button class="close-btn" onclick="this.parentElement.parentElement.remove()">×</button>
+            </div>
+            <div class="qr-modal-body">
+                <div id="qrcode"></div>
+                <p style="text-align: center; margin-top: 15px; color: var(--text-light);">
+                    扫描二维码观看视频
+                </p>
+            </div>
+            <div class="qr-modal-footer">
+                <button class="btn btn-primary" onclick="downloadQRCode()">
+                    <i class="fas fa-download"></i> 下载二维码
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(qrModal);
+    
+    // 使用qrcode.js生成二维码
+    if (typeof QRCode !== 'undefined') {
+        new QRCode(document.getElementById("qrcode"), {
+            text: videoUrl,
+            width: 200,
+            height: 200
+        });
+    } else {
+        // 加载qrcode库
+        loadQRCodeLibrary(videoUrl);
+    }
+}
+
+function loadQRCodeLibrary(videoUrl) {
+    // 动态加载qrcode库
+    const script = document.createElement('script');
+    script.src = 'https://cdn.staticfile.org/qrcodejs/1.0.0/qrcode.min.js';
+    script.onload = function() {
+        new QRCode(document.getElementById("qrcode"), {
+            text: videoUrl,
+            width: 200,
+            height: 200
+        });
+    };
+    document.head.appendChild(script);
+}
+
+function downloadQRCode() {
+    const qrImage = document.querySelector('#qrcode img');
+    if (qrImage) {
+        const link = document.createElement('a');
+        link.download = '舞蹈视频二维码.png';
+        link.href = qrImage.src;
+        link.click();
+    } else {
+        alert('请先生成二维码');
+    }
+}
+
+function shareToWechat(videoUrl) {
+    const textarea = document.createElement('textarea');
+    textarea.value = videoUrl;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    
+    alert('链接已复制！\n请在微信中粘贴分享给好友或群聊。');
+}
+
+// ===================== 批量分享功能 =====================
+function addBatchShareButton() {
+    const searchSection = document.querySelector('.search-section');
+    if (searchSection && !document.querySelector('.batch-share-btn')) {
+        const shareButton = `
+            <button class="btn btn-success batch-share-btn" onclick="batchShareVideos()">
+                <i class="fab fa-tiktok"></i> 批量分享
+            </button>
+        `;
+        searchSection.insertAdjacentHTML('beforeend', shareButton);
+    }
+}
+
+function batchShareVideos() {
+    if (filteredVideos.length === 0) {
+        alert('没有可分享的视频');
+        return;
+    }
+    
+    if (filteredVideos.length > 10) {
+        if (!confirm(`您选择了 ${filteredVideos.length} 个视频，数量较多，建议分批分享。是否继续？`)) {
+            return;
+        }
+    }
+    
+    let shareText = "🎵 惠惠舞蹈作品集精选视频 🎵\n\n";
+    
+    filteredVideos.forEach((video, index) => {
+        const videoUrl = CONFIG.R2_PUBLIC_URL + encodeURIComponent(video.filename);
+        shareText += `${index + 1}. ${video.title}\n`;
+        shareText += `⏱️ 时长：${video.duration}\n`;
+        shareText += `🔗 链接：${videoUrl}\n`;
+        if (video.tags.length > 0) {
+            shareText += `🏷️ 标签：${video.tags.map(tag => `#${tag}`).join(' ')}\n`;
+        }
+        shareText += "\n";
+    });
+    
+    shareText += "\n查看更多精彩舞蹈视频：\n";
+    shareText += window.location.href;
+    
+    // 复制到剪贴板
+    const textarea = document.createElement('textarea');
+    textarea.value = shareText;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    
+    alert(`已复制 ${filteredVideos.length} 个视频的分享信息！\n可以在抖音群聊中粘贴批量分享。`);
+}
     </script>
 </body>
 </html>
+
 
 
 

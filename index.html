@@ -5732,6 +5732,9 @@ async function loadVideoData() {
                             <button class="action-btn play" onclick="playVideo(${video.id})">
                                 <i class="fas fa-play"></i> 播放
                             </button>
+                            <button class="action-btn share" onclick="shareToDouyin(${video.id})" title="分享到抖音">
+                                <i class="fab fa-tiktok"></i> 分享
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -6726,3 +6729,4 @@ function updateLocalVideoData() {
     </script>
 </body>
 </html>
+
